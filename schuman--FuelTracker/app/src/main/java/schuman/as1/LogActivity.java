@@ -1,5 +1,6 @@
 package schuman.as1;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 /**
  * Created by Caleb on 26/01/2016.
  */
-public class LogActivity extends AppCompatActivity {
+public class LogActivity extends Activity {
     private static final String FILENAME = "file.sav";
     private static final String POSITIONNAME = "name.sav";
 

@@ -2,6 +2,7 @@ package schuman.as1;
 
 //simplescreenrecorder
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static final String FILENAME = "file.sav";
     private static final String POSITIONNAME = "name.sav";
@@ -49,19 +50,14 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<carData> adapter;
 
     private Integer index = 0;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        carDataArray = new ArrayList<carData>();
+        Log = (ListView) findViewById(R.id.Log);
         //bodyText = (EditText) findViewById(R.id.dateText);
 
 
@@ -124,18 +120,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
         //String[] tweets = loadFromFile();
-        carDataArray = new ArrayList<carData>();
-        Log = (ListView) findViewById(R.id.Log);
         loadFromFile();
         adapter = new ArrayAdapter<carData>(this,
                 R.layout.log_list, carDataArray);
@@ -180,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     0);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
-            gson.toJson(cardata, out);
+            gson.toJson(carDataArray, out);
             out.flush();
             fos.close();
 
