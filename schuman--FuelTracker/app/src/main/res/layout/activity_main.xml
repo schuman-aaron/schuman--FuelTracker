@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    //code for buttons and text field acquired from: http://developer.android.com/guide/topics/ui/declaring-layout.html
+
+    <Button android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_gravity="bottom"
+        android:layout_row="56"
+        android:layout_column="0"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button android:id="@+id/logButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log"
+        android:layout_gravity="bottom"
+        android:layout_row="56"
+        android:layout_column="5"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button android:id="@+id/saveButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Save"
+    android:layout_gravity="bottom"
+    android:layout_row="56"
+    android:layout_column="13"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:text="Station:"
+        android:id="@+id/stationText"
+        android:editable="false"
+        android:textSize="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="38dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:text="Fuel Grade:"
+        android:id="@+id/gradeText"
+        android:editable="false"
+        android:textSize="30dp"
+        android:layout_below="@+id/stationText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="4"
+        android:layout_column="0"
+        android:text="Amount:"
+        android:id="@+id/amountText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/gradeText"
+        android:editable="false"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="5"
+        android:layout_column="0"
+        android:text="Unit Cost:"
+        android:id="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:editable="false"
+        android:textSize="30dp"
+        android:layout_below="@+id/amountText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="6"
+        android:layout_column="0"
+        android:text="Cost:"
+        android:id="@+id/textView2"
+        android:editable="false"
+        android:textSize="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:editable="false"
+        android:elegantTextHeight="false"
+        android:textSize="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:text="Odometer:"
+        android:id="@+id/textView5"
+        android:editable="false"
+        android:textSize="30dp"
+        android:layout_below="@+id/stationText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/dateInput"
+        android:text="yyyy-mm-dd"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:inputType="text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/stationInput"
+        android:layout_above="@+id/textView5"
+        android:layout_alignLeft="@+id/dateInput"
+        android:layout_alignStart="@+id/dateInput"
+        android:text="enter station here"
+        android:inputType="text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/odometerInput"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignLeft="@+id/stationInput"
+        android:layout_alignStart="@+id/stationInput"
+        android:text="distance traveled in km"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fuelGradeInput"
+        android:layout_alignBottom="@+id/gradeText"
+        android:layout_alignLeft="@+id/odometerInput"
+        android:layout_alignStart="@+id/odometerInput"
+        android:text="enter fuel grade here"
+        android:inputType="text" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/amountInput"
+        android:layout_above="@+id/unitCostInput"
+        android:layout_alignLeft="@+id/fuelGradeInput"
+        android:layout_alignStart="@+id/fuelGradeInput"
+        android:layout_alignParentEnd="true"
+        android:inputType="numberDecimal"
+        android:text="volume of fuel in L" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/unitCostInput"
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignLeft="@+id/amountInput"
+        android:layout_alignStart="@+id/amountInput"
+        android:text="cost of fuel in cents/L"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Output for the fuel cost"
+        android:id="@+id/costOutput"
+        android:textSize="18dp"
+        android:layout_below="@+id/unitCostInput"
+        android:layout_alignLeft="@+id/unitCostInput"
+        android:layout_alignStart="@+id/unitCostInput"
+        android:inputType="text" />
+
+</RelativeLayout>

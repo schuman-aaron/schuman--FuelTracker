@@ -1,0 +1,209 @@
+package schuman.as1;
+
+//simplescreenrecorder
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final String FILENAME = "file.sav";
+    private static final String POSITIONNAME = "name.sav";
+
+    private ListView Log;
+    private carData cardata = new carData();
+
+
+
+
+    private ArrayList<carData> carDataArray = new ArrayList<carData>();
+    private ArrayAdapter<carData> adapter;
+
+    private Integer index = 0;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+
+        //bodyText = (EditText) findViewById(R.id.dateText);
+
+
+        Button saveButton = (Button) findViewById(R.id.saveButton);
+        Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        // Button modifyButton = (Button) findViewById(R.id.modifyButton);
+        Button logButton = (Button) findViewById(R.id.logButton);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+
+                cardata = new carData();
+
+                try {
+                    cardata.setAmountInput(textID2Double(R.id.amountInput));
+                    cardata.setDateInput(textID2String(R.id.dateInput));
+                    cardata.setFuelGradeInput(textID2String(R.id.fuelGradeInput));
+                    cardata.setOdometerInput(textID2Double(R.id.odometerInput));
+                    cardata.setStationInput(textID2String(R.id.stationInput));
+                    cardata.setUnitCostInput(textID2String(R.id.unitCostInput));
+                    //adapter.notifyDataSetChanged();
+                    carDataArray.add(index, cardata);
+                    adapter.notifyDataSetChanged();
+                    saveInFile();
+                    //saveInFile(text, new Date(System.currentTimeMillis()));
+                    index = carDataArray.size();
+                    //finish();
+                } catch(NumberFormatException e){
+
+                }
+
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                if(carDataArray.isEmpty()){
+                    index = 0;
+                }else {
+                    index = carDataArray.size();
+                }
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
+        logButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), LogActivity.class);
+                //EditText editText = (EditText) findViewById(R.id.edit_message);
+                //String message = editText.getText().toString();
+                //intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+
+            }
+        });
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        //String[] tweets = loadFromFile();
+        carDataArray = new ArrayList<carData>();
+        Log = (ListView) findViewById(R.id.Log);
+        loadFromFile();
+        adapter = new ArrayAdapter<carData>(this,
+                R.layout.log_list, carDataArray);
+        Log.setAdapter(adapter);
+    }
+
+
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+
+            // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
+            Type listType = new TypeToken<ArrayList<carData>>() {
+            }.getType();
+            carDataArray = gson.fromJson(in, listType);
+
+            FileInputStream fis2 = openFileInput(POSITIONNAME);
+            BufferedReader in2 = new BufferedReader(new InputStreamReader(fis2));
+
+            Type IntegerType = new TypeToken<Integer>() {
+            }.getType();
+
+            if(in2.toString().isEmpty()){
+                index = 0;
+            } else {
+                index = gson.fromJson(in2, IntegerType);
+            }
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+    }
+
+    private void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    0);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(cardata, out);
+            out.flush();
+            fos.close();
+
+            FileOutputStream fos2 = openFileOutput(POSITIONNAME, 0);
+            BufferedWriter out2 = new BufferedWriter(new OutputStreamWriter(fos2));
+            gson.toJson(index, out2);
+            out2.flush();
+            fos2.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+    }
+
+    private String textID2String(int textID) {
+        return ((EditText) findViewById(textID)).getText().toString();
+    }
+
+    private Double textID2Double(int textID) {
+        return Double.parseDouble(((EditText) findViewById(textID)).getText().toString());
+    }
+}
