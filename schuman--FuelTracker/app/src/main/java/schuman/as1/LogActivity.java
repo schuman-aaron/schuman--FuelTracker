@@ -58,7 +58,7 @@ public class LogActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_file);
 
-        Log = (ListView) findViewById(R.id.Log);
+        Log = (ListView) findViewById(R.id.log);
 
         adapter = new ArrayAdapter<carData>(this,
                 R.layout.log_list, carDataArray);
@@ -162,13 +162,13 @@ public class LogActivity extends Activity {
             }.getType();
 
             if(in2.toString().isEmpty()){
-                index = 0;
             } else {
                 index = gson.fromJson(in2, IntegerType);
             }
 
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+            carDataArray = new ArrayList<carData>();
+            index = 0;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException();

@@ -4,23 +4,13 @@ package schuman.as1;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,14 +30,14 @@ public class MainActivity extends Activity {
     private static final String FILENAME = "file.sav";
     private static final String POSITIONNAME = "name.sav";
 
-    private ListView Log;
+   // private ListView myLog;
     private carData cardata = new carData();
 
 
 
 
     private ArrayList<carData> carDataArray = new ArrayList<carData>();
-    private ArrayAdapter<carData> adapter;
+    //private ArrayAdapter<carData> adapter;
 
     private Integer index = 0;
 
@@ -56,8 +46,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        carDataArray = new ArrayList<carData>();
-        Log = (ListView) findViewById(R.id.Log);
+
         //bodyText = (EditText) findViewById(R.id.dateText);
 
 
@@ -82,7 +71,7 @@ public class MainActivity extends Activity {
                     cardata.setUnitCostInput(textID2String(R.id.unitCostInput));
                     //adapter.notifyDataSetChanged();
                     carDataArray.add(index, cardata);
-                    adapter.notifyDataSetChanged();
+                    //adapter.notifyDataSetChanged();
                     saveInFile();
                     //saveInFile(text, new Date(System.currentTimeMillis()));
                     index = carDataArray.size();
@@ -127,13 +116,17 @@ public class MainActivity extends Activity {
         super.onStart();
         //String[] tweets = loadFromFile();
         loadFromFile();
-        adapter = new ArrayAdapter<carData>(this,
-                R.layout.log_list, carDataArray);
-        Log.setAdapter(adapter);
+       // myLog = (ListView) findViewById(R.id.log);
+       // adapter = new ArrayAdapter<carData>(this,
+               // R.layout.log_list, carDataArray);
+       //myLog.setAdapter(adapter);
     }
 
 
     private void loadFromFile() {
+        carDataArray = new ArrayList<carData>();
+        index = 0;
+
         try {
             FileInputStream fis = openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
@@ -150,14 +143,11 @@ public class MainActivity extends Activity {
             Type IntegerType = new TypeToken<Integer>() {
             }.getType();
 
-            if(in2.toString().isEmpty()){
-                index = 0;
-            } else {
-                index = gson.fromJson(in2, IntegerType);
-            }
+            index = gson.fromJson(in2, IntegerType);
 
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+            carDataArray = new ArrayList<carData>();
+            index = 0;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException();
